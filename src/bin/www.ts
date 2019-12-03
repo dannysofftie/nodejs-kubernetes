@@ -1,3 +1,4 @@
+import * as cluster from 'cluster';
 import * as ejs from 'ejs';
 import * as fastify from 'fastify';
 import * as cookie from 'fastify-cookie';
@@ -6,6 +7,7 @@ import * as servefavicon from 'fastify-favicon';
 import * as multer from 'fastify-multer-op';
 import * as staticassets from 'fastify-static';
 import { IncomingMessage, Server, ServerResponse } from 'http';
+import * as os from 'os';
 import { join, resolve } from 'path';
 import * as viewengine from 'point-of-view';
 import * as servestatic from 'serve-static';
@@ -15,9 +17,6 @@ import database from '../models';
 import apiresources from '../routes/api-resources';
 import authentication from '../routes/authentication';
 import utilities from '../utils';
-import browser from '../libraries/Browser';
-import * as cluster from 'cluster';
-import * as os from 'os';
 
 const settings = require(join(__dirname, '..', '..', 'settings.json'));
 
@@ -77,7 +76,7 @@ export default class App {
         // graceful shutdown for processes, and fastify's browser instance
         for (const signal of ['SIGINT', 'SIGTERM', 'SIGHUP'] as NodeJS.Signals[]) {
             process.on(signal, async () => {
-                this.app.browser && (await this.app.browser.close());
+                // this.app.browser && (await this.app.browser.close());
                 process.exit();
             });
         }
@@ -96,11 +95,9 @@ export default class App {
 
         this.app.register(config);
 
-        this.app.register(database);
+        // this.app.register(database);
 
         this.app.register(utilities);
-
-        settings.browser && this.app.register(browser);
 
         this.app.register(cookie);
 
@@ -146,11 +143,11 @@ export default class App {
     private async workerProcesses() {
         const cpus = os.cpus();
 
-        for (const cpu in cpus) {
+        while (cpus.length) {
             cluster.fork();
         }
 
-        cluster.on('exit', async worker => {
+        cluster.on('exit', async () => {
             cluster.fork();
         });
     }

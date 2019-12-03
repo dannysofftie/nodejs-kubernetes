@@ -1,7 +1,7 @@
 {
-    "name": "fastify-typescript",
+    "name": "nodejs-kubernetes-api",
     "version": "0.0.1",
-    "description": "Template to quick start your API development using Fastify and TypeScript",
+    "description": "Deploying a Dockerized Node.js app to a highgly available kubernetes cluster",
     "main": "dist/index.js",
     "scripts": {
         "dev": "ts-node-dev --respawn --no-notify src/index.ts",
@@ -9,27 +9,28 @@
         "build": "npm run clean && tsc -b",
         "clean": "tsc -b --clean",
         "debug": "node --inspect -r ts-node/register src/index.ts",
-        "docker-build": "npm run docker-stop && docker-compose build && docker rmi -f $(docker images --quiet --filter 'dangling=true')",
-        "docker-start": "docker-compose up",
+        "docker-build": "docker build -t dannysofftie/nodejs-kubernetes-api . && docker rmi -f $(docker images --quiet --filter 'dangling=true')",
+        "docker-start": "docker run --name nodejs-kubernetes-api -p 5400:5000 -d dannysofftie/nodejs-kubernetes-api",
         "docker-stop": "docker-compose down",
         "lint": "eslint src/**/*.ts",
         "lint:fix": "npm run lint -- --fix"
     },
     "repository": {
         "type": "git",
-        "url": "git+ssh://git@github.com:dannysofftie/fastify-typescript.git"
+        "url": "git+ssh://git@github.com:dannysofftie/nodejs-kubernetes.git"
     },
     "keywords": [
         "fastify",
-        "fastify-template",
-        "nodejs-api-development"
+        "nodejs-kubernetes",
+        "nodejs-api",
+        "nodejs-kubernetes-api"
     ],
     "author": "Danny Sofftie",
     "license": "GPL-3.0",
     "bugs": {
-        "url": "https://github.com/dannysofftie/fastify-typescript/issues"
+        "url": "https://github.com/dannysofftie/nodejs-kubernetes/issues"
     },
-    "homepage": "https://github.com/dannysofftie/fastify-typescript#readme",
+    "homepage": "https://github.com/dannysofftie/nodejs-kubernetes#readme",
     "dependencies": {
         "axios": "^0.19.0",
         "bcrypt": "^3.0.6",
@@ -51,7 +52,6 @@
         "nodemailer": "^6.3.1",
         "pino-pretty": "^3.3.0",
         "point-of-view": "^3.7.0",
-        "puppeteer": "^2.0.0",
         "serve-static": "^1.14.1",
         "typescript": "^3.7.2"
     },
@@ -65,11 +65,10 @@
         "@types/node": "^12.12.6",
         "@types/node-xlsx": "^0.12.1",
         "@types/nodemailer": "^6.2.2",
-        "@types/puppeteer": "^1.20.2",
         "@typescript-eslint/eslint-plugin": "^1.13.0",
         "@typescript-eslint/parser": "^1.13.0",
-        "eslint": "^5.16.0",
-        "eslint-config-prettier": "^4.3.0",
+        "eslint": "^6.7.2",
+        "eslint-config-prettier": "^6.7.0",
         "ts-node-dev": "^1.0.0-pre.44"
     },
     "engines": {

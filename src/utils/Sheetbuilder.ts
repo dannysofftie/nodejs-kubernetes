@@ -42,7 +42,7 @@ export function buildSheet(sheetname: string, items: any[]) {
         dataRows.push(Object.values(value));
     }
 
-    const data = [/* rows, */ headers, ...dataRows];
+    const data = [rows, headers, ...dataRows];
 
     const [columnsWidth, rowsWidth] = [[], []];
 

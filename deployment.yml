@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: nodejs-kubernetes-api
+spec:
+    selector:
+        matchLabels:
+            name: nodejs-kubernetes-api
+    template:
+        metadata:
+            labels:
+                name: nodejs-kubernetes-api
+        spec:
+            containers:
+                - name: nodejs-kubernetes-api
+                  image: dannysofftie/nodejs-kubernetes-api
+                  imagePullPolicy: IfNotPresent
+                  ports:
+                      - containerPort: 5000
+                        protocol: TCP
+                  resources:
+                      requests:
+                          memory: 50mi
+                          cpu: 100mi
+                      limits:
+                          memory: 200mi
+                          cpu: 200mi
+    replicas: 4
