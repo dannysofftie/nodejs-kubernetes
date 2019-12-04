@@ -1,7 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: nodejs-kubernetes-api
+    name: nodejs-kubernetes
+    labels:
+        app: nodejs-kubernetes-api
 spec:
     selector:
         matchLabels:
@@ -20,9 +22,12 @@ spec:
                         protocol: TCP
                   resources:
                       requests:
-                          memory: 50mi
-                          cpu: 100mi
+                          memory: 100Mi
+                          cpu: 50m
                       limits:
-                          memory: 200mi
-                          cpu: 200mi
+                          memory: 300Mi
+                          cpu: 100m
+                  env:
+                      - name: NODE_ENV
+                        value: 'Kubernetes'
     replicas: 4

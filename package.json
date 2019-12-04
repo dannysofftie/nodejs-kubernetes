@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "ts-node-dev --respawn --no-notify src/index.ts",
         "start": "npm run clean && npm run build && node dist/index.js",
-        "build": "npm run clean && tsc -b",
+        "build": "npm run clean && tsc -b --verbose",
         "clean": "tsc -b --clean",
         "debug": "node --inspect -r ts-node/register src/index.ts",
         "docker-build": "docker build -t dannysofftie/nodejs-kubernetes-api . && docker rmi -f $(docker images --quiet --filter 'dangling=true')",
