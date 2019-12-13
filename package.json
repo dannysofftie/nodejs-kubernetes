@@ -5,12 +5,13 @@
     "main": "dist/index.js",
     "scripts": {
         "dev": "ts-node-dev --respawn --no-notify src/index.ts",
+        "dev:docker": "docker run -it --rm -p 5400:5000 -v $(pwd):/app nodejs-kubernetes-api npm run dev",
         "start": "npm run clean && npm run build && node dist/index.js",
+        "start:docker": "docker run --name nodejs-kubernetes-api -p 5400:5000 -d dannysofftie/nodejs-kubernetes-api npm run start",
         "build": "npm run clean && tsc -b --verbose",
         "clean": "tsc -b --clean",
         "debug": "node --inspect -r ts-node/register src/index.ts",
-        "docker-build": "docker build -t dannysofftie/nodejs-kubernetes-api . && docker rmi -f $(docker images --quiet --filter 'dangling=true')",
-        "docker-start": "docker run --name nodejs-kubernetes-api -p 5400:5000 -d dannysofftie/nodejs-kubernetes-api",
+        "build:docker": "docker build -t dannysofftie/nodejs-kubernetes-api . && docker rmi -f $(docker images --quiet --filter 'dangling=true')",
         "docker-stop": "docker-compose down",
         "lint": "eslint src/**/*.ts",
         "lint:fix": "npm run lint -- --fix"
